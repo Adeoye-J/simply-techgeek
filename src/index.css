@@ -1,0 +1,196 @@
+/* @import "tailwindcss"; */
+
+@import "tailwindcss";
+
+/* Theme tokens as RGB triplets, switched for dark mode below. */
+:root {
+  --ink: 11 16 32;
+  --ink-2: 28 35 64;
+  --paper: 246 247 251;
+  --panel: 255 255 255;
+  --dim: 90 99 120;
+  --line: 226 230 240;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: 244 246 255;
+    --ink-2: 201 208 232;
+    --paper: 10 14 28;
+    --panel: 19 26 46;
+    --dim: 154 163 191;
+    --line: 36 48 80;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ink: 244 246 255;
+  --ink-2: 201 208 232;
+  --paper: 10 14 28;
+  --panel: 19 26 46;
+  --dim: 154 163 191;
+  --line: 36 48 80;
+}
+
+@theme {
+  /* Colours. Theme tokens follow the light/dark variables above. */
+  --color-ink: rgb(var(--ink));
+  --color-ink-2: rgb(var(--ink-2));
+  --color-paper: rgb(var(--paper));
+  --color-panel: rgb(var(--panel));
+  --color-dim: rgb(var(--dim));
+  --color-line: rgb(var(--line));
+
+  /* Accents stay fixed across themes. */
+  --color-c1: #6d5dfc; /* violet */
+  --color-c2: #22d3ee; /* cyan */
+  --color-c3: #ff6b9a; /* pink */
+  --color-c4: #ffb547; /* amber */
+  --color-c5: #34d399; /* mint */
+
+  /* Fonts */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Gradient: bg-grad */
+  --background-image-grad: linear-gradient(120deg, #6d5dfc, #22d3ee 55%, #ff6b9a);
+
+  /* Animations */
+  --animate-float: float 14s ease-in-out infinite;
+  --animate-tilt: tilt 8s ease-in-out infinite;
+  --animate-bob: bob 5s ease-in-out infinite;
+  --animate-bob-reverse: bob 6s ease-in-out infinite reverse;
+  --animate-scroll: scroll 32s linear infinite;
+  --animate-spin-slow: spin-slow 18s linear infinite;
+  --animate-pulse-ring: pulse-ring 2s infinite;
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-modal-in: modal-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(30px, -20px) scale(1.08);
+    }
+  }
+
+  @keyframes tilt {
+    0%,
+    100% {
+      transform: rotate(-1.5deg);
+    }
+    50% {
+      transform: rotate(1.5deg);
+    }
+  }
+
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px));
+  }
+
+  body {
+    @apply bg-paper text-ink font-body leading-[1.6] antialiased overflow-x-hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    background: rgb(var(--paper));
+    z-index: 20;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display leading-[1.05] tracking-tight;
+  }
+
+  :focus-visible {
+    outline: 3px solid #22d3ee;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .grad-text {
+    @apply bg-grad bg-clip-text text-transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
