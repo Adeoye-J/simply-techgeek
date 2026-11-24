@@ -2,10 +2,10 @@ import { Container } from '../ui/Section';
 import { CONFIG, externalProps } from '../../config/site';
 
 const links = [
-    { href: '#services', label: 'Services' },
-    { href: '#work', label: 'Work' },
-    { href: '#about', label: 'About' },
-    { href: '#contact', label: 'Contact' },
+    { href: '/#services', label: 'Services' },
+    { href: '/#work', label: 'Work' },
+    { href: '/#about', label: 'About' },
+    { href: '/#contact', label: 'Contact' },
 ];
 
 const linkClass = 'no-underline hover:text-ink transition-colors duration-200';
