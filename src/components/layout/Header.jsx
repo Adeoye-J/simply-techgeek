@@ -4,8 +4,8 @@ import { Container } from '../ui/Section';
 import { CONFIG, externalProps } from '../../config/site';
 
 const links = [
-    { href: '#services', label: 'Services' },
-    { href: '#work', label: 'Work' },
+    { href: '/#services', label: 'Services' },
+    { href: '/#work', label: 'Work' },
     { href: '#process', label: 'Process' },
     { href: '#about', label: 'About' },
     { href: '#contact', label: 'Contact' },
@@ -37,7 +37,7 @@ export default function Header() {
                     TechGeek
                 </a> */}
                 <a
-                    href="#top"
+                    href="/#top"
                     aria-label="TechGeek home"
                     className="flex items-center gap-2.5 font-display text-[1.3rem] font-bold no-underline"
                 >
