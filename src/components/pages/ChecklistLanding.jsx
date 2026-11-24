@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { SHEETS_URL, submitLead } from '../../lib/submitLead';
 import circuit from '../../assets/checklist/circuit-bg.jpg';
 import cover from '../../assets/checklist/checklist-cover.png';
 
 const PDF = '/TechGeek-Business-Automation-Opportunity-Checklist.pdf';
-const ENDPOINT = import.meta.env.VITE_LEAD_ENDPOINT || '/api/lead';
+const ENDPOINT = SHEETS_URL || import.meta.env.VITE_LEAD_ENDPOINT || '/api/lead';
+// Set VITE_EMAILS_COPY=true only when your backend really emails the visitor a copy.
+const EMAILS_COPY = import.meta.env.VITE_EMAILS_COPY === 'true';
 const BOOKING = import.meta.env.VITE_BOOKING_URL || '';
 const PRIVACY = import.meta.env.VITE_PRIVACY_URL || '';
 
@@ -63,12 +66,7 @@ function LeadForm({ id }) {
     };
     setS({ status: 'sending', name: body.name, error: '' });
     try {
-      const res = await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error('bad status');
+      await submitLead({ source: 'checklist', ...body }, ENDPOINT);
       setS({ status: 'done', name: body.name, error: '' });
     } catch {
       setS({ status: 'error', name: body.name, error: 'Something went wrong sending that. Please try again.' });
@@ -79,7 +77,7 @@ function LeadForm({ id }) {
     return (
       <div className={CARD} role="status">
         <h3 className={`${H3} text-2xl`}>Thanks, {s.name.split(' ')[0] || 'friend'}. Your checklist is ready.</h3>
-        <p className="mt-1">We have also emailed you a copy. If it is not in your inbox in a few minutes, check your spam folder.</p>
+        <p className="mt-1">{EMAILS_COPY ? 'We have also emailed you a copy. If it is not in your inbox in a few minutes, check your spam folder.' : 'Download it below and keep it somewhere handy.'}</p>
         <a className={BTN} href={PDF} download>Download the PDF</a>
         {BOOKING && <p className={SMALL}>Want a second opinion? <a className="text-[#3478F6] underline" href={BOOKING}>Book a free 20-minute workflow review</a>.</p>}
       </div>
