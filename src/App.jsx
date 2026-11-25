@@ -19,7 +19,7 @@ const Home = () => {
             <Ticker />
             <Services />
             <Stats />
-            <Work />
+            {/* <Work /> */}
             <Process />
             <About />
             <CtaBand />
